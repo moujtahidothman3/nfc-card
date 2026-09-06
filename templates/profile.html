@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ profile.full_name }} — Carte de visite</title>
+
+  <meta name="theme-color" content="#0a0d12">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <main class="card">
+    <div class="monogram">{{ profile.full_name[0] }}</div>
+    <span class="username-tag">@{{ profile.username }}</span>
+
+    <h1 class="full-name">{{ profile.full_name }}</h1>
+    <p class="role-line">{{ profile.job_title }} @ {{ profile.company }}</p>
+
+    <hr class="divider">
+
+    <a class="email-link" href="mailto:{{ profile.email }}">
+      <span>✉️</span>
+      <span>{{ profile.email }}</span>
+    </a>
+
+    {% if profile.linkedin %}
+      <a class="linkedin-link" href="https://www.linkedin.com/in/{{ profile.linkedin }}" target="_blank" rel="noopener">
+        <span>🔗</span>
+        <span>@{{ profile.linkedin }}</span>
+      </a>
+    {% endif %}
+
+    <a class="save-button" href="{{ url_for('download_vcard', username=profile.username) }}">Enregistrer le contact</a>
+    <p class="save-hint">Télécharge une carte de contact à ajouter dans tes contacts</p>
+
+    <hr class="divider">
+
+    <details class="qr-toggle">
+      <summary>Afficher le QR Code</summary>
+      <div class="qr-content">
+        <img
+          class="qr-code"
+          src="{{ url_for('profile_qrcode', username=profile.username, size=150) }}"
+          width="150"
+          height="150"
+          alt="QR Code du profil de {{ profile.full_name }}"
+        >
+        <p class="save-hint">Scane ce QR Code pour partager ce profil</p>
+      </div>
+    </details>
+  </main>
+
+</body>
+</html>

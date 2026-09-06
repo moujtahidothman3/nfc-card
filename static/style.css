@@ -1,0 +1,236 @@
+/* ---------------------------------------------
+   Carte de visite NFC — style.css
+   Mobile-first, premium dark + or.
+--------------------------------------------- */
+
+:root {
+  --bg: #0b0b0d;
+  --surface: #151412;
+  --border: rgba(201, 161, 90, 0.18);
+  --ink: #f3efe6;
+  --ink-soft: #a89c86;
+  --accent: #c9a15a;
+  --accent-glow: rgba(201, 161, 90, 0.32);
+  --radius: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  background-image:
+    radial-gradient(600px 300px at 50% -10%, rgba(201, 161, 90, 0.10), transparent 70%);
+  color: var(--ink);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px 16px;
+}
+
+.card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 28px 32px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+}
+
+.monogram {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 20px;
+  border-radius: 16px;
+  background: linear-gradient(160deg, #1e1a12, #151412);
+  border: 1px solid var(--border);
+  box-shadow: 0 0 0 1px rgba(201, 161, 90, 0.18), 0 0 24px var(--accent-glow);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+  font-size: 30px;
+}
+
+.username-tag {
+  display: inline-block;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 12.5px;
+  color: var(--accent);
+  background: rgba(201, 161, 90, 0.10);
+  border: 1px solid rgba(201, 161, 90, 0.28);
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-bottom: 16px;
+}
+
+.full-name {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.25;
+  margin: 0 0 8px;
+  letter-spacing: 0.01em;
+}
+
+.role-line {
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  border: none;
+  margin: 26px auto;
+  background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+}
+
+.email-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 15px;
+  padding: 6px 4px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.email-link:hover,
+.email-link:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.linkedin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 4px;
+  margin-top: 2px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.linkedin-link:hover,
+.linkedin-link:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.save-button {
+  display: block;
+  width: 100%;
+  margin-top: 28px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #d8b877, #b98f45);
+  color: #0b0b0d;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+.save-button:active {
+  opacity: 0.88;
+}
+
+.save-hint {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.qr-code {
+  display: block;
+  margin: 4px auto 0;
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.qr-toggle summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+  list-style: none;
+  padding: 6px 0;
+}
+
+.qr-toggle summary::-webkit-details-marker {
+  display: none;
+}
+
+.qr-toggle summary::marker {
+  content: "";
+}
+
+.qr-toggle summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.qr-content {
+  margin-top: 16px;
+}
+
+.save-button:focus-visible,
+.email-link:focus-visible,
+.linkedin-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* --- Page 404 --- */
+.error-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 48px 28px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+}
+
+.error-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+  font-size: 26px;
+  margin: 0 0 10px;
+}
+
+.error-text {
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+}

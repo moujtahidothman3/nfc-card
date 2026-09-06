@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Supprimer {{ profile.username }}{% endblock %}
+
+{% block content %}
+
+  <h1 class="admin-title">Supprimer ce profil ?</h1>
+
+  <div class="confirm-box">
+    <p>
+      Tu es sur le point de supprimer définitivement le profil de
+      <strong>{{ profile.full_name }}</strong> (<code>{{ profile.username }}</code>).
+    </p>
+    <p>Cette action est irréversible. Le lien <code>/p/{{ profile.username }}</code> ne fonctionnera plus.</p>
+
+    <form method="POST" action="{{ url_for('admin_delete', profile_id=profile.id) }}" class="confirm-actions">
+      <button type="submit" class="btn btn-danger">Oui, supprimer définitivement</button>
+      <a href="{{ url_for('admin_list') }}" class="btn btn-ghost">Annuler</a>
+    </form>
+  </div>
+
+{% endblock %}

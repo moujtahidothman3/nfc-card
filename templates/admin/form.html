@@ -1,0 +1,94 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ "Modifier le profil" if profile else "Créer un profil" }}{% endblock %}
+
+{% block content %}
+
+  <h1 class="admin-title">{{ "Modifier le profil" if profile else "Créer un profil" }}</h1>
+
+  <form
+    class="admin-form"
+    method="POST"
+    action="{{ url_for('admin_edit', profile_id=profile.id) if profile else url_for('admin_create') }}"
+  >
+    <div class="form-row">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        value="{{ form_data.username }}"
+        placeholder="ex: othman (laisse vide pour générer automatiquement)"
+      >
+      <p class="form-hint">Sera utilisé dans l'URL publique : /p/&lt;username&gt;. Laisse ce champ vide pour le générer automatiquement à partir du nom complet (en cas de doublon, un chiffre est ajouté automatiquement).</p>
+    </div>
+
+    <div class="form-row">
+      <label for="full_name">Nom complet</label>
+      <input
+        type="text"
+        id="full_name"
+        name="full_name"
+        value="{{ form_data.full_name }}"
+        placeholder="ex: Othman Moujtahid"
+        required
+      >
+    </div>
+
+    <div class="form-row">
+      <label for="job_title">Fonction</label>
+      <input
+        type="text"
+        id="job_title"
+        name="job_title"
+        value="{{ form_data.job_title }}"
+        placeholder="ex: Consultant"
+        required
+      >
+    </div>
+
+    <div class="form-row">
+      <label for="company">Entreprise</label>
+      <input
+        type="text"
+        id="company"
+        name="company"
+        value="{{ form_data.company }}"
+        placeholder="ex: ABC Consulting"
+        required
+      >
+    </div>
+
+    <div class="form-row">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        value="{{ form_data.email }}"
+        placeholder="ex: othman@abc.ma"
+        required
+      >
+    </div>
+
+    <div class="form-row">
+      <label for="linkedin">Username LinkedIn (optionnel)</label>
+      <input
+        type="text"
+        id="linkedin"
+        name="linkedin"
+        value="{{ form_data.linkedin }}"
+        placeholder="Ex: othman-moujtahid"
+      >
+      <p class="form-hint">Juste votre username, sans https:// ni @</p>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        {{ "Enregistrer les modifications" if profile else "Créer le profil" }}
+      </button>
+      <a href="{{ url_for('admin_list') }}" class="btn btn-ghost">Annuler</a>
+    </div>
+  </form>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Profils{% endblock %}
+
+{% block content %}
+
+  <div class="admin-toolbar">
+    <h1 class="admin-title">Profils</h1>
+    <a href="{{ url_for('admin_create') }}" class="btn btn-primary">Créer un profil</a>
+  </div>
+
+  {% if profiles %}
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Nom complet</th>
+          <th>Fonction</th>
+          <th>Entreprise</th>
+          <th>Email</th>
+          <th class="col-actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for profile in profiles %}
+          <tr>
+            <td><code>{{ profile.username }}</code></td>
+            <td>{{ profile.full_name }}</td>
+            <td>{{ profile.job_title }}</td>
+            <td>{{ profile.company }}</td>
+            <td>{{ profile.email }}</td>
+            <td class="col-actions">
+              <a href="{{ url_for('public_profile', username=profile.username) }}" class="btn btn-ghost" target="_blank">Voir</a>
+              <a href="{{ url_for('admin_edit', profile_id=profile.id) }}" class="btn btn-ghost">Modifier</a>
+              <a href="{{ url_for('admin_delete', profile_id=profile.id) }}" class="btn btn-danger-ghost">Supprimer</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="admin-empty">Aucun profil pour l'instant. Clique sur "Créer un profil" pour commencer.</p>
+  {% endif %}
+
+{% endblock %}
