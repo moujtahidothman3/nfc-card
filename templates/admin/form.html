@@ -10,7 +10,30 @@
     class="admin-form"
     method="POST"
     action="{{ url_for('admin_edit', profile_id=profile.id) if profile else url_for('admin_create') }}"
+    enctype="multipart/form-data"
   >
+    <div class="form-row">
+      <label for="photo">Photo de profil (optionnel)</label>
+
+      {% if profile and profile.photo_filename %}
+        <div class="current-photo">
+          <img src="{{ url_for('static', filename='uploads/' + profile.photo_filename) }}" alt="Photo actuelle">
+          <label class="remove-photo-check">
+            <input type="checkbox" name="remove_photo" value="1">
+            Supprimer la photo actuelle
+          </label>
+        </div>
+      {% endif %}
+
+      <input
+        type="file"
+        id="photo"
+        name="photo"
+        accept=".jpg,.jpeg,.png,.webp"
+      >
+      <p class="form-hint">Formats acceptés : JPG, PNG, WEBP. 5 Mo maximum. Si aucune photo n'est envoyée, un badge à initiale sera affiché à la place.</p>
+    </div>
+
     <div class="form-row">
       <label for="username">Username</label>
       <input

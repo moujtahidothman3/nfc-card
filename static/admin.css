@@ -218,6 +218,34 @@ body {
   color: var(--admin-ink-soft);
 }
 
+.current-photo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #faf9f6;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+}
+
+.current-photo img {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.remove-photo-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--admin-ink-soft);
+  cursor: pointer;
+}
+
 .form-actions {
   display: flex;
   gap: 10px;

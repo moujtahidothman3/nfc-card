@@ -1,9 +1,11 @@
 import os
 import re
 import unicodedata
+import uuid
 from io import BytesIO
 
 import segno
+from werkzeug.utils import secure_filename
 from flask import (
     Flask,
     render_template,
@@ -24,9 +26,20 @@ os.makedirs(INSTANCE_DIR, exist_ok=True)
 
 DB_PATH = os.path.join(INSTANCE_DIR, "database.db")
 
+# Dossier où sont stockées les photos de profil uploadées.
+# ATTENTION : sur un hébergeur gratuit comme Render, ce dossier est
+# effacé à chaque redéploiement (même limitation que la base SQLite).
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+ALLOWED_PHOTO_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
+
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+# Limite la taille max d'un fichier envoyé à 5 Mo, pour éviter qu'une
+# photo énorme (ou un envoi malveillant) ne sature le serveur.
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
 # Nécessaire pour que flash() fonctionne (signe les messages stockés
 # temporairement côté client dans un cookie de session).
@@ -101,6 +114,43 @@ def generate_qr_png(data, size=200):
     qr.save(buffer, kind="png", scale=scale, border=4, dark="black", light="white")
     buffer.seek(0)
     return buffer
+
+
+def allowed_photo(filename):
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower() in ALLOWED_PHOTO_EXTENSIONS
+    )
+
+
+def save_uploaded_photo(file_storage):
+    """
+    Sauvegarde une photo uploadée sur le disque avec un nom de fichier
+    unique (pour éviter tout conflit entre profils), et retourne le nom
+    de fichier à stocker en base. Retourne None si aucun fichier valide
+    n'a été fourni.
+    """
+    if not file_storage or file_storage.filename == "":
+        return None
+
+    if not allowed_photo(file_storage.filename):
+        return None
+
+    extension = file_storage.filename.rsplit(".", 1)[1].lower()
+    unique_name = f"{uuid.uuid4().hex}.{extension}"
+    safe_name = secure_filename(unique_name)
+
+    file_storage.save(os.path.join(app.config["UPLOAD_FOLDER"], safe_name))
+    return safe_name
+
+
+def delete_photo_file(filename):
+    """Supprime un fichier photo du disque s'il existe, sans jamais planter."""
+    if not filename:
+        return
+    path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+    if os.path.exists(path):
+        os.remove(path)
 
 
 def clean_linkedin_username(raw_value):
@@ -342,6 +392,7 @@ def admin_create():
         company=form_data["company"],
         email=form_data["email"],
         linkedin=linkedin_username,
+        photo_filename=save_uploaded_photo(request.files.get("photo")),
     )
     db.session.add(profile)
     db.session.commit()
@@ -401,6 +452,19 @@ def admin_edit(profile_id):
     profile.company = form_data["company"]
     profile.email = form_data["email"]
     profile.linkedin = linkedin_username
+
+    if request.form.get("remove_photo") == "1":
+        # La personne a coché "Supprimer la photo actuelle"
+        delete_photo_file(profile.photo_filename)
+        profile.photo_filename = None
+    else:
+        new_photo_filename = save_uploaded_photo(request.files.get("photo"))
+        if new_photo_filename:
+            # Une nouvelle photo a été envoyée : on remplace l'ancienne
+            delete_photo_file(profile.photo_filename)
+            profile.photo_filename = new_photo_filename
+        # Sinon : aucun changement, on garde la photo existante telle quelle
+
     db.session.commit()
 
     flash("Profil modifié", "success")
@@ -416,6 +480,7 @@ def admin_delete(profile_id):
         return render_template("admin/confirm_delete.html", profile=profile)
 
     # --- Suppression réelle (POST uniquement) ---
+    delete_photo_file(profile.photo_filename)
     db.session.delete(profile)
     db.session.commit()
 
@@ -429,4 +494,11 @@ def not_found(error):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Ce bloc n'est utilisé QUE quand on lance "py app.py" directement (développement local).
+    # En production, gunicorn importe directement l'objet "app" et n'exécute jamais ce bloc,
+    # donc debug=True ici n'est jamais actif sur le serveur en ligne.
+    #
+    # FLASK_DEBUG=false peut être positionné en local si besoin de désactiver le débogueur.
+    debug_mode = os.environ.get("FLASK_DEBUG", "true").lower() == "true"
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=debug_mode, host="0.0.0.0", port=port)

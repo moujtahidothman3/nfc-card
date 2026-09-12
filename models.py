@@ -13,6 +13,7 @@ class Profile(db.Model):
     company   = db.Column(db.String(100), nullable=False)
     email     = db.Column(db.String(120), nullable=False)
     linkedin  = db.Column(db.String(100), nullable=True)
+    photo_filename = db.Column(db.String(200), nullable=True)
 
     def __repr__(self):
         return f"<Profile {self.username}>"

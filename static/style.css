@@ -70,6 +70,17 @@ body {
   font-size: 25px;
 }
 
+.avatar-photo {
+  display: block;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 26px;
+  border-radius: 18px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  box-shadow: 0 0 18px var(--accent-glow);
+}
+
 /* --- Identity --- */
 
 .full-name {
@@ -168,14 +179,14 @@ body {
 
 .primary-button {
   display: block;
-  width: calc(100% - 12px);
+  width: calc(100% - 24px);
   margin: 34px auto 0;
-  padding: 16px 20px;
+  padding: 17px 20px;
   background: linear-gradient(135deg, #ddbf85, #b98f45);
   color: #191410;
   border: none;
-  border-radius: 14px;
-  font-size: 15.5px;
+  border-radius: 13px;
+  font-size: 14.5px;
   font-weight: 600;
   font-family: inherit;
   text-decoration: none;
@@ -195,7 +206,7 @@ body {
 .button-caption {
   margin: 12px 0 0;
   font-size: 12.5px;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
   line-height: 1.5;
 }
 
