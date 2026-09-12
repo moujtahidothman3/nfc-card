@@ -1,17 +1,20 @@
 /* ---------------------------------------------
    Carte de visite NFC — style.css
-   Mobile-first, premium dark + or.
+   Digital business card — luxury minimalist.
 --------------------------------------------- */
 
 :root {
-  --bg: #0b0b0d;
-  --surface: #151412;
-  --border: rgba(201, 161, 90, 0.18);
-  --ink: #f3efe6;
-  --ink-soft: #a89c86;
+  --bg: #0a0a0b;
+  --surface: #131211;
+  --border: rgba(201, 161, 90, 0.14);
+  --hairline: rgba(255, 255, 255, 0.06);
+  --ink: #f5f2ec;
+  --ink-soft: #9c9488;
+  --ink-faint: #6b6459;
   --accent: #c9a15a;
-  --accent-glow: rgba(201, 161, 90, 0.32);
-  --radius: 20px;
+  --accent-soft: rgba(201, 161, 90, 0.10);
+  --accent-glow: rgba(201, 161, 90, 0.22);
+  --radius: 22px;
 }
 
 * {
@@ -26,14 +29,15 @@ body {
   margin: 0;
   background: var(--bg);
   background-image:
-    radial-gradient(600px 300px at 50% -10%, rgba(201, 161, 90, 0.10), transparent 70%);
+    radial-gradient(560px 280px at 50% -8%, rgba(201, 161, 90, 0.07), transparent 72%);
   color: var(--ink);
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 24px 16px;
+  padding: 32px 18px;
 }
 
 .card {
@@ -42,52 +46,46 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 40px 28px 32px;
+  padding: 44px 30px 34px;
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
 }
 
+/* --- Monogram --- */
+
 .monogram {
-  width: 68px;
-  height: 68px;
-  margin: 0 auto 20px;
-  border-radius: 16px;
-  background: linear-gradient(160deg, #1e1a12, #151412);
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 26px;
+  border-radius: 15px;
+  background: linear-gradient(160deg, #1b1815, var(--surface));
   border: 1px solid var(--border);
-  box-shadow: 0 0 0 1px rgba(201, 161, 90, 0.18), 0 0 24px var(--accent-glow);
+  box-shadow: 0 0 18px var(--accent-glow);
   color: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: "Cormorant Garamond", Georgia, serif;
   font-weight: 600;
-  font-size: 30px;
+  font-size: 25px;
 }
 
-.username-tag {
-  display: inline-block;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-  font-size: 12.5px;
-  color: var(--accent);
-  background: rgba(201, 161, 90, 0.10);
-  border: 1px solid rgba(201, 161, 90, 0.28);
-  border-radius: 999px;
-  padding: 4px 12px;
-  margin-bottom: 16px;
-}
+/* --- Identity --- */
 
 .full-name {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-weight: 600;
-  font-size: 32px;
-  line-height: 1.25;
-  margin: 0 0 8px;
+  font-size: 31px;
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0 0 9px;
   letter-spacing: 0.01em;
 }
 
 .role-line {
   color: var(--ink-soft);
-  font-size: 15px;
+  font-size: 14.5px;
+  font-weight: 400;
   line-height: 1.5;
   margin: 0;
 }
@@ -96,117 +94,178 @@ body {
   width: 100%;
   height: 1px;
   border: none;
-  margin: 26px auto;
-  background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+  margin: 30px auto;
+  background: linear-gradient(90deg, transparent, var(--hairline) 20%, var(--hairline) 80%, transparent);
 }
 
-.email-link {
-  display: inline-flex;
+/* --- Contact list --- */
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.contact-row {
+  display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--ink);
+  gap: 14px;
+  padding: 12px 6px;
   text-decoration: none;
-  font-size: 15px;
-  padding: 6px 4px;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.15s ease, color 0.15s ease;
-}
-
-.email-link:hover,
-.email-link:focus-visible {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-
-.linkedin-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--ink-soft);
-  text-decoration: none;
-  font-size: 14px;
-  padding: 8px 4px;
-  margin-top: 2px;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.15s ease, color 0.15s ease;
-}
-
-.linkedin-link:hover,
-.linkedin-link:focus-visible {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-
-.save-button {
-  display: block;
-  width: 100%;
-  margin-top: 28px;
-  padding: 16px 20px;
-  background: linear-gradient(135deg, #d8b877, #b98f45);
-  color: #0b0b0d;
-  border: none;
+  color: inherit;
   border-radius: 12px;
-  font-size: 16px;
+  transition: background-color 0.15s ease;
+}
+
+.contact-row:hover,
+.contact-row:focus-visible {
+  background: rgba(255, 255, 255, 0.03);
+  outline: none;
+}
+
+.contact-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.contact-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.contact-label {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.contact-value {
+  font-size: 15px;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Primary action --- */
+
+.primary-button {
+  display: block;
+  width: calc(100% - 12px);
+  margin: 34px auto 0;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #ddbf85, #b98f45);
+  color: #191410;
+  border: none;
+  border-radius: 14px;
+  font-size: 15.5px;
   font-weight: 600;
   font-family: inherit;
   text-decoration: none;
   text-align: center;
-  cursor: pointer;
-  box-shadow: 0 8px 24px var(--accent-glow);
+  box-shadow: 0 10px 26px var(--accent-glow);
 }
 
-.save-button:active {
-  opacity: 0.88;
+.primary-button-plus {
+  font-weight: 600;
+  margin-right: 2px;
 }
 
-.save-hint {
+.primary-button:active {
+  opacity: 0.9;
+}
+
+.button-caption {
   margin: 12px 0 0;
   font-size: 12.5px;
-  color: var(--ink-soft);
+  color: var(--ink-faint);
   line-height: 1.5;
+}
+
+/* --- Secondary action (share / QR) --- */
+
+.share-toggle {
+  margin-top: 22px;
+}
+
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  list-style: none;
+}
+
+.secondary-button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.secondary-button::-webkit-details-marker {
+  display: none;
+}
+
+.secondary-button::marker {
+  content: "";
+}
+
+.secondary-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.qr-panel {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .qr-code {
   display: block;
-  margin: 4px auto 0;
   padding: 10px;
   background: #ffffff;
-  border-radius: 12px;
-  border: 1px solid var(--border);
+  border-radius: 14px;
 }
 
-.qr-toggle summary {
-  cursor: pointer;
-  color: var(--accent);
-  font-size: 14px;
-  font-weight: 600;
-  list-style: none;
-  padding: 6px 0;
+.qr-caption {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  color: var(--ink-faint);
 }
 
-.qr-toggle summary::-webkit-details-marker {
-  display: none;
-}
+/* --- Footer --- */
 
-.qr-toggle summary::marker {
-  content: "";
-}
-
-.qr-toggle summary:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-.qr-content {
-  margin-top: 16px;
-}
-
-.save-button:focus-visible,
-.email-link:focus-visible,
-.linkedin-link:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+.site-footer {
+  margin: 22px 0 0;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  opacity: 0.6;
+  letter-spacing: 0.02em;
 }
 
 /* --- Page 404 --- */
@@ -218,13 +277,14 @@ body {
   border-radius: var(--radius);
   padding: 48px 28px;
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
 }
 
 .error-title {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-weight: 600;
-  font-size: 26px;
+  font-size: 25px;
+  color: var(--ink);
   margin: 0 0 10px;
 }
 
