@@ -51,13 +51,20 @@ body {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
 }
 
-/* --- Monogram --- */
+/* --- Header (photo + identité, horizontal) --- */
+
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+}
 
 .monogram {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 26px;
-  border-radius: 15px;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 14px;
   background: linear-gradient(160deg, #1b1815, var(--surface));
   border: 1px solid var(--border);
   box-shadow: 0 0 18px var(--accent-glow);
@@ -67,37 +74,39 @@ body {
   justify-content: center;
   font-family: "Cormorant Garamond", Georgia, serif;
   font-weight: 600;
-  font-size: 25px;
+  font-size: 23px;
 }
 
 .avatar-photo {
   display: block;
-  width: 76px;
-  height: 76px;
-  margin: 0 auto 26px;
-  border-radius: 18px;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 14px;
   object-fit: cover;
   border: 1px solid var(--border);
   box-shadow: 0 0 18px var(--accent-glow);
 }
 
-/* --- Identity --- */
+.header-text {
+  min-width: 0;
+}
 
 .full-name {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-weight: 600;
-  font-size: 31px;
+  font-size: 24px;
   line-height: 1.2;
   color: var(--ink);
-  margin: 0 0 9px;
+  margin: 0 0 4px;
   letter-spacing: 0.01em;
 }
 
 .role-line {
   color: var(--ink-soft);
-  font-size: 14.5px;
+  font-size: 13.5px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.4;
   margin: 0;
 }
 
@@ -105,7 +114,7 @@ body {
   width: 100%;
   height: 1px;
   border: none;
-  margin: 30px auto;
+  margin: 26px auto;
   background: linear-gradient(90deg, transparent, var(--hairline) 20%, var(--hairline) 80%, transparent);
 }
 
