@@ -81,8 +81,10 @@ def build_vcard(profile):
         f"FN:{profile.full_name}",
         f"ORG:{profile.company}",
         f"TITLE:{profile.job_title}",
-        f"EMAIL:{profile.email}",
     ]
+
+    if profile.email:
+        lines.append(f"EMAIL:{profile.email}")
 
     if profile.linkedin:
         lines.append(f"URL:https://www.linkedin.com/in/{profile.linkedin}")
@@ -206,10 +208,10 @@ def validate_profile_form(form_data, editing_id=None):
     company = form_data["company"]
     email = form_data["email"]
 
-    if not username or not full_name or not job_title or not company or not email:
-        return "Tous les champs sont obligatoires."
+    if not username or not full_name or not job_title or not company:
+        return "Le nom complet, la fonction et l'entreprise sont obligatoires."
 
-    if not EMAIL_REGEX.match(email):
+    if email and not EMAIL_REGEX.match(email):
         return "L'adresse email n'est pas valide."
 
     existing = Profile.query.filter_by(username=username).first()
@@ -365,8 +367,8 @@ def admin_create():
         "linkedin": request.form.get("linkedin", ""),
     }
 
-    if not form_data["full_name"] or not form_data["job_title"] or not form_data["company"] or not form_data["email"]:
-        flash("Tous les champs sont obligatoires.", "error")
+    if not form_data["full_name"] or not form_data["job_title"] or not form_data["company"]:
+        flash("Le nom complet, la fonction et l'entreprise sont obligatoires.", "error")
         return render_template("admin/form.html", profile=None, form_data=form_data)
 
     raw_username = form_data["username"].strip()
@@ -390,7 +392,7 @@ def admin_create():
         full_name=form_data["full_name"],
         job_title=form_data["job_title"],
         company=form_data["company"],
-        email=form_data["email"],
+        email=form_data["email"] or None,
         linkedin=linkedin_username,
         photo_filename=save_uploaded_photo(request.files.get("photo")),
     )
@@ -426,8 +428,8 @@ def admin_edit(profile_id):
         "linkedin": request.form.get("linkedin", ""),
     }
 
-    if not form_data["full_name"] or not form_data["job_title"] or not form_data["company"] or not form_data["email"]:
-        flash("Tous les champs sont obligatoires.", "error")
+    if not form_data["full_name"] or not form_data["job_title"] or not form_data["company"]:
+        flash("Le nom complet, la fonction et l'entreprise sont obligatoires.", "error")
         return render_template("admin/form.html", profile=profile, form_data=form_data)
 
     raw_username = form_data["username"].strip()
@@ -450,7 +452,7 @@ def admin_edit(profile_id):
     profile.full_name = form_data["full_name"]
     profile.job_title = form_data["job_title"]
     profile.company = form_data["company"]
-    profile.email = form_data["email"]
+    profile.email = form_data["email"] or None
     profile.linkedin = linkedin_username
 
     if request.form.get("remove_photo") == "1":
