@@ -51,20 +51,13 @@ body {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
 }
 
-/* --- Header (photo + identité, horizontal) --- */
-
-.header-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  text-align: left;
-}
+/* --- Header (photo + identité, vertical centré) --- */
 
 .monogram {
-  width: 70px;
-  height: 70px;
-  flex-shrink: 0;
-  border-radius: 17px;
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 24px;
+  border-radius: 22px;
   background: linear-gradient(160deg, #1b1815, var(--surface));
   border: 1px solid var(--border);
   box-shadow: 0 0 18px var(--accent-glow);
@@ -74,43 +67,44 @@ body {
   justify-content: center;
   font-family: "Cormorant Garamond", Georgia, serif;
   font-weight: 600;
-  font-size: 28px;
+  font-size: 36px;
 }
 
 .avatar-photo {
   display: block;
-  width: 70px;
-  height: 70px;
-  flex-shrink: 0;
-  border-radius: 17px;
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 24px;
+  border-radius: 22px;
   object-fit: cover;
   border: 1px solid var(--border);
   box-shadow: 0 0 18px var(--accent-glow);
 }
 
-.header-text {
-  min-width: 0;
-}
-
 .full-name {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-weight: 600;
-  font-size: 22.5px;
-  line-height: 1.25;
+  font-size: 31px;
+  line-height: 1.2;
   color: var(--ink);
-  margin: 0 0 5px;
-  letter-spacing: 0.005em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin: 0 0 9px;
+  letter-spacing: 0.01em;
 }
 
 .role-line {
   color: var(--ink-soft);
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.5;
   margin: 0;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  border: none;
+  margin: 30px auto;
+  background: linear-gradient(90deg, transparent, var(--hairline) 20%, var(--hairline) 80%, transparent);
 }
 
 .divider {

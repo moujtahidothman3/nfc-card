@@ -14,18 +14,14 @@
 
   <main class="card">
 
-    <div class="header-row">
-      {% if profile.photo_filename %}
-        <img class="avatar-photo" src="{{ url_for('static', filename='uploads/' + profile.photo_filename) }}" alt="Photo de {{ profile.full_name }}">
-      {% else %}
-        <div class="monogram">{{ profile.full_name[0] }}</div>
-      {% endif %}
+    {% if profile.photo_filename %}
+      <img class="avatar-photo" src="{{ url_for('static', filename='uploads/' + profile.photo_filename) }}" alt="Photo de {{ profile.full_name }}">
+    {% else %}
+      <div class="monogram">{{ profile.full_name[0] }}</div>
+    {% endif %}
 
-      <div class="header-text">
-        <h1 class="full-name">{{ profile.full_name }}</h1>
-        <p class="role-line">{{ profile.job_title }} · {{ profile.company }}</p>
-      </div>
-    </div>
+    <h1 class="full-name">{{ profile.full_name }}</h1>
+    <p class="role-line">{{ profile.job_title }} · {{ profile.company }}</p>
 
     <hr class="divider">
 
