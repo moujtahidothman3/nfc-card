@@ -56,15 +56,15 @@ body {
 .header-row {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   text-align: left;
 }
 
 .monogram {
-  width: 56px;
-  height: 56px;
+  width: 70px;
+  height: 70px;
   flex-shrink: 0;
-  border-radius: 14px;
+  border-radius: 17px;
   background: linear-gradient(160deg, #1b1815, var(--surface));
   border: 1px solid var(--border);
   box-shadow: 0 0 18px var(--accent-glow);
@@ -74,15 +74,15 @@ body {
   justify-content: center;
   font-family: "Cormorant Garamond", Georgia, serif;
   font-weight: 600;
-  font-size: 23px;
+  font-size: 28px;
 }
 
 .avatar-photo {
   display: block;
-  width: 56px;
-  height: 56px;
+  width: 70px;
+  height: 70px;
   flex-shrink: 0;
-  border-radius: 14px;
+  border-radius: 17px;
   object-fit: cover;
   border: 1px solid var(--border);
   box-shadow: 0 0 18px var(--accent-glow);
@@ -95,16 +95,19 @@ body {
 .full-name {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-weight: 600;
-  font-size: 24px;
-  line-height: 1.2;
+  font-size: 22.5px;
+  line-height: 1.25;
   color: var(--ink);
-  margin: 0 0 4px;
-  letter-spacing: 0.01em;
+  margin: 0 0 5px;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .role-line {
   color: var(--ink-soft);
-  font-size: 13.5px;
+  font-size: 15px;
   font-weight: 400;
   line-height: 1.4;
   margin: 0;
