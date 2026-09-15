@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — Administration</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+
+  <div class="login-shell">
+    <form class="login-box" method="POST" action="{{ url_for('admin_login') }}">
+      <h1 class="login-title">Administration</h1>
+      <p class="login-subtitle">Cartes de visite NFC</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-stack">
+            {% for category, message in messages %}
+              <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <input type="hidden" name="next" value="{{ request.args.get('next', '') }}">
+
+      <div class="form-row">
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" autofocus required>
+      </div>
+
+      <button type="submit" class="btn btn-primary login-submit">Se connecter</button>
+    </form>
+  </div>
+
+</body>
+</html>

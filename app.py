@@ -2,6 +2,7 @@ import os
 import re
 import unicodedata
 import uuid
+from functools import wraps
 from io import BytesIO
 
 import segno
@@ -15,6 +16,7 @@ from flask import (
     redirect,
     url_for,
     flash,
+    session,
 )
 from models import db, Profile
 
@@ -46,6 +48,11 @@ app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 # En MVP local, une valeur fixe suffit ; à remplacer par une vraie
 # variable d'environnement avant une mise en production.
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-key-change-me")
+
+# Mot de passe requis pour accéder à /admin. À définir en variable
+# d'environnement sur Render (jamais laisser la valeur par défaut en
+# production).
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "changeme123")
 
 # Lien Regex basique pour valider un format d'email (suffisant pour un MVP,
 # pas une validation RFC complète).
@@ -345,13 +352,52 @@ def download_qrcode(username):
     )
 
 
+def admin_required(view_func):
+    """
+    Décorateur qui bloque l'accès à une route si la personne n'est pas
+    connectée en tant qu'admin (via la session). Redirige vers la page
+    de connexion sinon.
+    """
+    @wraps(view_func)
+    def wrapped(*args, **kwargs):
+        if not session.get("is_admin"):
+            return redirect(url_for("admin_login", next=request.path))
+        return view_func(*args, **kwargs)
+    return wrapped
+
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "GET":
+        return render_template("admin/login.html")
+
+    password = request.form.get("password", "")
+    next_url = request.form.get("next") or url_for("admin_list")
+
+    if password == ADMIN_PASSWORD:
+        session["is_admin"] = True
+        return redirect(next_url)
+
+    flash("Mot de passe incorrect.", "error")
+    return render_template("admin/login.html")
+
+
+@app.route("/admin/logout")
+def admin_logout():
+    session.pop("is_admin", None)
+    flash("Déconnecté.", "success")
+    return redirect(url_for("admin_login"))
+
+
 @app.route("/admin")
+@admin_required
 def admin_list():
     profiles = Profile.query.order_by(Profile.id).all()
     return render_template("admin/list.html", profiles=profiles)
 
 
 @app.route("/admin/create", methods=["GET", "POST"])
+@admin_required
 def admin_create():
     if request.method == "GET":
         # Formulaire vide, mode création
@@ -404,6 +450,7 @@ def admin_create():
 
 
 @app.route("/admin/<int:profile_id>/edit", methods=["GET", "POST"])
+@admin_required
 def admin_edit(profile_id):
     profile = Profile.query.get_or_404(profile_id)
 
@@ -474,6 +521,7 @@ def admin_edit(profile_id):
 
 
 @app.route("/admin/<int:profile_id>/delete", methods=["GET", "POST"])
+@admin_required
 def admin_delete(profile_id):
     profile = Profile.query.get_or_404(profile_id)
 
